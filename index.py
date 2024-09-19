@@ -25,6 +25,7 @@ def validar_palabra(palabra_seleccionada, palabra_correcta):
         return True
     return False
 
+
 def descontar_vidas(vidas):
     
     if vidas == 0:
