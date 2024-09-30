@@ -1,6 +1,8 @@
 from random import choice
+import os
 
 lista = ['manzana', 'pera', 'mango']
+letras_ingresadas = []
 vidas = 5
 
 def escoger_palabra(lista):
@@ -27,12 +29,10 @@ def validar_palabra(palabra_seleccionada, palabra_correcta):
 
 
 def descontar_vidas(vidas):
-    
     if vidas == 0:
         print("*****************************************")
         print("*     F i n * D e l * J u e g o         *")
         print("*****************************************")
-        
     else:
         vidas -= 1
         print("*****************************************")
@@ -47,38 +47,42 @@ def mostrar_palabra_guion(palabra):
         palabra_guiones.append('_')
     return palabra_guiones
 
-def intento(palabra_seleccionada, palabra_guion):
+def intento(palabra_seleccionada, palabra_guion, vidas):
 
     index = 0
     bandera = False
     print(palabra_guion)
     opcion = solicitar_letra()
+    
 
     while vidas >= 1:
         for letra in palabra_seleccionada:
-            if letra == opcion:
+            if opcion in letras_ingresadas:
+                bandera = False
+            elif letra == opcion:
                 palabra_guion[index] = opcion
                 bandera = True
             index += 1
 
-        if validar_palabra(palabra_seleccionada, palabra_guion) == True:
+        os.system('cls')
+        if validar_palabra(palabra_seleccionada, palabra_guion) is True:
             print("****** Ganaste ******")
             print("*   La palabra es   *")
             print(palabra_guion)
             return True
         
-        if bandera == False:
+        if bandera is False:
             vidas = descontar_vidas(vidas)
-
         if vidas == 0:
             return descontar_vidas(vidas)
         
         index = 0
         bandera = False
         print(palabra_guion)
+        letras_ingresadas.append(opcion)
         opcion = solicitar_letra()
         print("\n")
         
 palabra_seleccionada = list(escoger_palabra(lista))
 palabra_guion = mostrar_palabra_guion(palabra_seleccionada)
-intento(palabra_seleccionada, palabra_guion)
+intento(palabra_seleccionada, palabra_guion, vidas)
